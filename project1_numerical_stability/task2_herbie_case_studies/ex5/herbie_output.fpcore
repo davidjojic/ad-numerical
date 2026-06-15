@@ -1,0 +1,3 @@
+;; seed: 1478988179
+
+(FPCore (s0 x1) :herbie-status imp-start :herbie-time 9950.044677734375 :herbie-error-input ((256 11.350189729622413) (8000 10.511423019814451)) :herbie-error-output ((256 0.00390625) (8000 0.009223600075647147)) :herbie-warnings (ground-truth) :name "ex5 Rewriting the Power of Exponential" :precision binary64 (exp (* x1 s0)))

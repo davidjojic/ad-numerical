@@ -1,0 +1,3 @@
+;; seed: 2065802733
+
+(FPCore (x4) :herbie-status ex-start :herbie-time 7883.4765625 :herbie-error-input ((256 0.03515625) (8000 0.11972534018136609)) :herbie-error-output ((256 0) (8000 0)) :herbie-warnings (inf-points) :name "ex2  Removable Division in an Exponential Expression" :precision binary64 :pre (!= x4 0.0) (* 2.0 (exp x4)))

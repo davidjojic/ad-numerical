@@ -1,0 +1,6 @@
+(FPCore (x4)
+  :name "ex2  Removable Division in an Exponential Expression"
+  :precision binary64
+  :pre (!= x4 0)
+  (* (/ (exp x4) x4)
+     (+ x4 x4)))

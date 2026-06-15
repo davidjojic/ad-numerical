@@ -1,0 +1,4 @@
+(FPCore (s0 x1)
+  :name "ex5 Rewriting the Power of Exponential"
+  :precision binary64
+  (pow (exp s0) x1))

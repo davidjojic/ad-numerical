@@ -1,0 +1,3 @@
+For relatively small values of (x[0]), we observed a large numerical difference between the original function and the manually optimized and Herbie-generated versions. The manual and Herbie versions produced identical results because Herbie discovered the same algebraic rewrite as the manual optimization.
+
+For extreme input values, the original function returned only NaN values, while the manual and Herbie versions still produced some finite outputs. This suggests that the rewrite can prevent or delay catastrophic failures, such as overflow or underflow. However, some output components may still become NaN because of other operations in the function, such as evaluating arccos outside its domain.

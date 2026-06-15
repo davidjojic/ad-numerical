@@ -1,0 +1,7 @@
+(FPCore (x)
+  :name "ex3 removable division"
+  :precision binary64
+  :pre (> x 0.0)
+  (let ([s0 (sqrt x)])
+    (+ (* (/ s0 x) s0)
+       x)))

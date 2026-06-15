@@ -1,0 +1,3 @@
+;; seed: 415881360
+
+(FPCore (s0 s1 s2 x1) :herbie-status imp-start :herbie-time 3700.828369140625 :herbie-error-input ((256 16.76248420823715) (8000 10.041954200493091)) :herbie-error-output ((256 4.532800526844366) (8000 0.167875)) :name "ex1_cancellation" :precision binary64 :herbie-preprocess ((negabs s0) (negabs s1) (negabs s2) (sort s0 s1 s2)) (* (* s0 s2) s1))

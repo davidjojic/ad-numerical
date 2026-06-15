@@ -1,0 +1,3 @@
+;; seed: 1787506566
+
+(FPCore (x1 x2 t1) :herbie-status imp-start :herbie-time 39913.34375 :herbie-error-input ((256 21.199522639449352) (8000 19.20348572010464)) :herbie-error-output ((256 0.0078125) (8000 0.009921879928918366)) :herbie-warnings (ground-truth) :name "ex4 Cancellation Across Temporary Variables" :precision binary64 (+ t1 (+ (pow x2 (+ t1 x2)) (pow x1 x2))))
