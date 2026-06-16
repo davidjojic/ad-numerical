@@ -1,0 +1,3 @@
+;; seed: 480596401
+
+(FPCore (t) :herbie-status ex-start :herbie-time 7874.4345703125 :herbie-error-input ((256 0) (8000 0.08295692104033851)) :herbie-error-output ((256 0) (8000 0.08295692104033851)) :name "ex6 acos tanh" :precision binary64 (acos (tanh t)))

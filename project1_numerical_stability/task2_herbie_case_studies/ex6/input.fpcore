@@ -1,0 +1,4 @@
+(FPCore (t)
+  :name "ex6 acos tanh"
+  :precision binary64
+  (acos (tanh t)))
