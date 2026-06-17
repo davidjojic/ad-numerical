@@ -48,17 +48,16 @@ def append_csv(file_path, fieldnames, row):
         writer.writerow(row)
 
 
+"""
+If this array has a finite resolt
+"""
 def has_finite_value(array):
-    """
-    True ako niz ima bar jednu konačnu vrednost.
-    """
     return bool(jnp.any(jnp.isfinite(array)))
 
 
 def all_results_are_invalid(*arrays):
     """
-    True ako nijedan prosleđeni niz nema nijednu
-    konačnu vrednost.
+    True if all results are NaN/Inf
     """
     return all(
         not has_finite_value(array)
@@ -68,8 +67,7 @@ def all_results_are_invalid(*arrays):
 
 def has_nan_mismatch(first, second):
     """
-    True ako postoji bar jedna pozicija na kojoj je
-    jedna verzija finite, a druga NaN ili Inf.
+        If one has a NaN but other has a finite result
     """
     first_finite = jnp.isfinite(first)
     second_finite = jnp.isfinite(second)
@@ -79,10 +77,7 @@ def has_nan_mismatch(first, second):
 
 def max_finite_abs_diff(first, second):
     """
-    Najveća apsolutna razlika samo na pozicijama gde
-    su obe vrednosti konačne.
-
-    Ako nema nijedne takve pozicije, vraća None.
+    The biggest abs diff
     """
     finite_positions = (
         jnp.isfinite(first)
@@ -145,8 +140,7 @@ def update_statistics(
     herbie,
     value,
 ):
-    # Ako su sve tri verzije potpuno NaN/Inf
-    # za ovaj tip rezultata.
+    # If all the funciton returns only NaN
     if all_results_are_invalid(
         original,
         manual,
@@ -154,8 +148,7 @@ def update_statistics(
     ):
         statistics["all_nan"] += 1
 
-    # Brojimo test ako postoji mesto gde je jedna
-    # verzija finite, a druga NaN/Inf.
+    # We count when one version is finite but other has NaN
     if has_nan_mismatch(original, herbie):
         statistics["org_vs_herbie_nan"] += 1
 
@@ -211,17 +204,15 @@ def update_statistics(
 
 NUMBER_OF_TESTS = 1000
 
-# Menjamo x[1].
+# What index are we cheking
 VARIED_INDEX = 1
 
 
-# PROMENI ZA RAZLICITE SWEEPOVE   
+# What test we are generating
 # small_num_sweep
 # large_num_sweep
-# critiacal_num_sweep
 SWEEP_NAME = "large_num_sweep"
-INCLUDE_ZERO = False
-# Realni deo x[1] ide od veoma malog broja do 10000.
+INCLUDE_ZERO = False # will we include 0 in our test cases
 START_VALUE = 1.0
 END_VALUE = 1e10
 
@@ -229,17 +220,16 @@ END_VALUE = 1e10
 base_x = jnp.array(
     [
         1.0 + 1j,
+        1.0 + 1.0j,
+        1.0 + 1.0j,
+        1.0 + 1.0j,
         0.0 + 0.0j,
-        1.0 + 1.0j,
-        1.0 + 1.0j,
-        1.0 + 1.0j,
     ],
     dtype=jnp.complex128,
 )
 
 
-# geomspace ne može početi od nule,
-# zato nulu dodajemo posebno.
+# geomspace we use to callcuclate the x[index]
 positive_values = jnp.geomspace(
     START_VALUE,
     END_VALUE,
@@ -438,7 +428,7 @@ failed_tests = 0
 
 for test_id, value in enumerate(test_values):
 
-    # Čuvamo imaginarni deo, a menjamo samo realni deo.
+    #We keep img part of input, but change only the real part
     old_imaginary_part = jnp.imag(
         base_x[VARIED_INDEX]
     )
@@ -536,10 +526,6 @@ for test_id, value in enumerate(test_values):
         second_herb,
         value,
     )
-
-    # Ako su baš svi primal, first i second rezultati
-    # potpuno NaN/Inf za original, manual i Herbie,
-    # samo povećavamo counter i ne upisujemo u CSV.
     if all_results_are_invalid(
         f_orig,
         f_man,
