@@ -1,0 +1,4 @@
+batch_id,result_type,all_nan,org_vs_herbie_nan,org_vs_man_nan,herbie_vs_man_nan,org_vs_herbie_max_diff,org_vs_man_max_diff,man_vs_herbie_max_diff,org_vs_herbie_max_diff_value,org_vs_man_max_diff_value,man_vs_herbie_max_diff_value
+2026-06-17T23:45:24,primal,0,0,0,0,0.0,1.4210854715202004e-14,1.4210854715202004e-14,1.0,2.3760097539893064,2.3760097539893064
+2026-06-17T23:45:24,first_order,0,0,235,235,0.0,1.4210854715202004e-14,1.4210854715202004e-14,1.0,2.2229864612374914,2.2229864612374914
+2026-06-17T23:45:24,second_order,0,0,235,235,0.0,2.842170943040401e-14,2.842170943040401e-14,1.0,1.4281079323479964,1.4281079323479964

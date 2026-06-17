@@ -18,18 +18,6 @@ jax.config.update("jax_enable_x64", True)
 # Helpers
 # ============================================================
 
-def make_real(f):
-    def wrapped(z):
-        x_complex = z[:5] + 1j * z[5:]
-        y_complex = f(x_complex)
-
-        return jnp.concatenate([
-            jnp.real(y_complex),
-            jnp.imag(y_complex),
-        ])
-
-    return wrapped
-
 
 def to_json(array):
     host_array = jax.device_get(array)
@@ -202,32 +190,32 @@ def update_statistics(
 # Generate many x values
 # ============================================================
 
-NUMBER_OF_TESTS = 1000
+NUMBER_OF_TESTS = 100
 
 # What index are we cheking
-VARIED_INDEX = 1
+VARIED_INDEX = 0
 
 
 # What test we are generating
 # small_num_sweep
 # large_num_sweep
-SWEEP_NAME = "large_num_sweep"
+SWEEP_NAME = "small_num_sweep_nonzero_start"
 INCLUDE_ZERO = False # will we include 0 in our test cases
 
 #when we want to do small sweep jnp.finfo(jnp.float64).tiny
-START_VALUE = 1.0
-END_VALUE = 1e10
+START_VALUE = 1e-6
+END_VALUE = 0.99
 
 
 base_x = jnp.array(
     [
-        0.0 + 0j,
-        1.0 + 1.0j,
-        1.0 + 1.0j,
-        1.0 + 1.0j,
-        1.0 + 1.0j,
+        0.0,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
     ],
-    dtype=jnp.complex128,
+    dtype=jnp.float64,
 )
 
 
@@ -273,42 +261,37 @@ else:
 # Prepare functions
 # ============================================================
 
-orig_real = make_real(f_original)
-man_real = make_real(f_manual)
-herb_real = make_real(f_herbie)
-
-
 original_fn = jax.jit(f_original)
 manual_fn = jax.jit(f_manual)
 herbie_fn = jax.jit(f_herbie)
 
 first_original_fn = jax.jit(
-    jax.jacfwd(orig_real)
+    jax.jacfwd(f_original)
 )
 
 first_manual_fn = jax.jit(
-    jax.jacfwd(man_real)
+    jax.jacfwd(f_manual)
 )
 
 first_herbie_fn = jax.jit(
-    jax.jacfwd(herb_real)
+    jax.jacfwd(f_herbie)
 )
 
 second_original_fn = jax.jit(
     jax.jacfwd(
-        jax.jacfwd(orig_real)
+        jax.jacfwd(f_original)
     )
 )
 
 second_manual_fn = jax.jit(
     jax.jacfwd(
-        jax.jacfwd(man_real)
+        jax.jacfwd(f_manual)
     )
 )
 
 second_herbie_fn = jax.jit(
     jax.jacfwd(
-        jax.jacfwd(herb_real)
+        jax.jacfwd(f_herbie)
     )
 )
 
@@ -438,19 +421,10 @@ failed_tests = 0
 
 for test_id, value in enumerate(test_values):
 
-    #We keep img part of input, but change only the real part
-    old_imaginary_part = jnp.imag(
-        base_x[VARIED_INDEX]
-    )
-
+    # Change only the selected float value.
     current_x = base_x.at[VARIED_INDEX].set(
-        value + 1j * old_imaginary_part
+        value
     )
-
-    current_x_real = jnp.concatenate([
-        jnp.real(current_x),
-        jnp.imag(current_x),
-    ])
 
     try:
         # ====================================================
@@ -466,15 +440,15 @@ for test_id, value in enumerate(test_values):
         # ====================================================
 
         first_orig = first_original_fn(
-            current_x_real
+            current_x
         )
 
         first_man = first_manual_fn(
-            current_x_real
+            current_x
         )
 
         first_herb = first_herbie_fn(
-            current_x_real
+            current_x
         )
 
         # ====================================================
@@ -482,15 +456,15 @@ for test_id, value in enumerate(test_values):
         # ====================================================
 
         second_orig = second_original_fn(
-            current_x_real
+            current_x
         )
 
         second_man = second_manual_fn(
-            current_x_real
+            current_x
         )
 
         second_herb = second_herbie_fn(
-            current_x_real
+            current_x
         )
 
         # Sačekaj da JAX završi računanje.
