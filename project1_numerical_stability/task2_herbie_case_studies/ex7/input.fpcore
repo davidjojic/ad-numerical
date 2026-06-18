@@ -1,0 +1,3 @@
+(FPCore (x3)
+  :name "ex7 root cause"
+  (- (+ x3 (atan2 x3 x3)) x3))

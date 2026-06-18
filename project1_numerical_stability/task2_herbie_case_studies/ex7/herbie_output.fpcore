@@ -1,0 +1,3 @@
+;; seed: 1981814152
+
+(FPCore (x3) :herbie-status imp-start :herbie-time 6206.78076171875 :herbie-error-input ((256 31.87086782760418) (8000 29.89918086064329)) :herbie-error-output ((256 0) (8000 0)) :name "ex7 root cause" :precision binary64 (atan2 x3 x3))
