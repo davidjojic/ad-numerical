@@ -1,0 +1,16 @@
+benchmark,tool
+gmm,manual
+gmm,codipack
+gmm,enzyme
+gmm,jax
+gmm,pytorch
+kmeans,manual
+kmeans,codipack
+kmeans,enzyme
+kmeans,jax
+kmeans,pytorch
+lse,manual
+lse,codipack
+lse,enzyme
+lse,jax
+lse,pytorch
